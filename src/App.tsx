@@ -1,11 +1,12 @@
-import './App.css'
+import { GlobalContextProvider } from './Components/GlobalContext/GlobalContext.tsx'
+import { PagesComponent } from "./Components/PagesComponent/PagesComponent.tsx"
 
 function App() {
 
   return (
-    <>
-      Hola
-    </>
+    <GlobalContextProvider> 
+      <PagesComponent/>
+    </GlobalContextProvider>
   )
 }
 

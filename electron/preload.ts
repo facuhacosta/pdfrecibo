@@ -1,3 +1,5 @@
+import { contextBridge, ipcRenderer } from "electron"
+
 function domReady(condition: DocumentReadyState[] = ['complete', 'interactive']) {
   return new Promise(resolve => {
     if (condition.includes(document.readyState)) {
@@ -79,6 +81,17 @@ function useLoading() {
     },
   }
 }
+
+contextBridge.exposeInMainWorld("electronAPI", {
+  printComponent: async (url: string, callback: (response: any) => void) => {
+    let response = await ipcRenderer.invoke("printComponent", url);
+    callback(response);
+  },
+  previewComponent: async (url: string, callback: (response: any) => void) => {
+    let response = await ipcRenderer.invoke("previewComponent", url);
+    callback(response);
+  },
+});
 
 // ----------------------------------------------------------------------
 

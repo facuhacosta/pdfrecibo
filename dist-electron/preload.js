@@ -1,4 +1,4 @@
-"use strict";function d(e=["complete","interactive"]){return new Promise(t=>{e.includes(document.readyState)?t(!0):document.addEventListener("readystatechange",()=>{e.includes(document.readyState)&&t(!0)})})}const o={append(e,t){Array.from(e.children).find(n=>n===t)||e.appendChild(t)},remove(e,t){Array.from(e.children).find(n=>n===t)&&e.removeChild(t)}};function r(){const e="loaders-css__square-spin",t=`
+"use strict";const a=require("electron");function d(e=["complete","interactive"]){return new Promise(t=>{e.includes(document.readyState)?t(!0):document.addEventListener("readystatechange",()=>{e.includes(document.readyState)&&t(!0)})})}const i={append(e,t){Array.from(e.children).find(n=>n===t)||e.appendChild(t)},remove(e,t){Array.from(e.children).find(n=>n===t)&&e.removeChild(t)}};function s(){const e="loaders-css__square-spin",t=`
 @keyframes square-spin {
   25% { transform: perspective(100px) rotateX(180deg) rotateY(0); }
   50% { transform: perspective(100px) rotateX(180deg) rotateY(180deg); }
@@ -24,4 +24,4 @@
   background: #282c34;
   z-index: 9;
 }
-    `,n=document.createElement("style"),a=document.createElement("div");return n.id="app-loading-style",n.innerHTML=t,a.className="app-loading-wrap",a.innerHTML=`<div class="${e}"><div></div></div>`,{appendLoading(){o.append(document.head,n),o.append(document.body,a)},removeLoading(){o.remove(document.head,n),o.remove(document.body,a)}}}const{appendLoading:s,removeLoading:i}=r();d().then(s);window.onmessage=e=>{e.data.payload==="removeLoading"&&i()};setTimeout(i,4999);
+    `,n=document.createElement("style"),o=document.createElement("div");return n.id="app-loading-style",n.innerHTML=t,o.className="app-loading-wrap",o.innerHTML=`<div class="${e}"><div></div></div>`,{appendLoading(){i.append(document.head,n),i.append(document.body,o)},removeLoading(){i.remove(document.head,n),i.remove(document.body,o)}}}a.contextBridge.exposeInMainWorld("electronAPI",{printComponent:async(e,t)=>{let n=await a.ipcRenderer.invoke("printComponent",e);t(n)},previewComponent:async(e,t)=>{let n=await a.ipcRenderer.invoke("previewComponent",e);t(n)}});const{appendLoading:p,removeLoading:r}=s();d().then(p);window.onmessage=e=>{e.data.payload==="removeLoading"&&r()};setTimeout(r,4999);
