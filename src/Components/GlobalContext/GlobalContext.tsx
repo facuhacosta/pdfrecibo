@@ -1,43 +1,41 @@
-import { FC, createContext, ReactNode, useState, useEffect} from "react";
+import { FC, createContext, ReactNode, useState, useEffect, Dispatch, SetStateAction} from "react";
 import ConfigDB from "../../assets/Config.json";
 
 export type GlobalContextType = {
   currentPage: string;
   Config: ConfigType;
-  setCongif?: (newConfig: ConfigType) => void;
+  setConfig: Dispatch<SetStateAction<ConfigType>>;
   updateCurrentPage: (newPage: string) => void 
 }
 
 export interface ConfigType {
   personalData: {
-    categorys: {
-      [key:string]: {
+    categorys: 
+      Array<{
         name: string;
         baseSalary: number;
         chargeBonus?: string;
-      } 
-    },
+      }>
     antiquity: {
-      [key: number]: number 
+      [key: number]: number;
     },
     title: {
-      [key:string]: number
-    },
-    positions: {
-      [key: string] : {
+      [key:string]: {
         name: string;
-        categorys: string[];
-        lifeDanger: boolean;
-      }
-    }
+        value: number;
+      } 
+    },
+    positions: string[];
   },
   bonifications: {
-    fixedConcepts: {
-      [key: string]: number 
-    },
-    proportionalConcepts: {
-      [key:string]: number
-    },
+    fixedConcepts: Array<{
+      name: string
+      value: number
+    }>,
+    proportionalConcepts: Array<{
+      name: string
+      value: number
+    }>,
     chargeBonuses: {
       [key: string]: {
         name: string
@@ -45,20 +43,20 @@ export interface ConfigType {
       }
     }
   },
-  discounts?: {
-    proportionalConcepts: {
-      [key: string]: number
-    },
-    fixedConcepts: {
-      [key: string]: number
-    }
-  },
-  family?: {
-    [key:string]: {
+  discounts: {
+    fixedConcepts: Array<{
       name: string
       value: number
-    }
+    }>,
+    proportionalConcepts: Array<{
+      name: string
+      value: number
+    }>,
   },
+  family: Array<{
+    name: string
+    value: number
+  }>
 }
 
 export const GlobalContext = createContext<GlobalContextType | null>(null);
@@ -72,7 +70,7 @@ export const GlobalContextProvider: FC<{children: ReactNode | JSX.Element}> = (p
     console.log(Config)
   },[])
   return (
-    <GlobalContext.Provider value={{ currentPage, Config, updateCurrentPage }}>
+    <GlobalContext.Provider value={{ currentPage, Config, updateCurrentPage, setConfig }}>
       {props.children}
     </GlobalContext.Provider>
   )

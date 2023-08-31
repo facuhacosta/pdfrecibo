@@ -3,7 +3,7 @@ import styles from "./BonificationsTable.module.scss"
 
 export const BonificationsTable: FC = () => {
   const tableRows = []
-  for (let index = 1; index <= 100; index++) {
+  for (let index = 1; index <= 150; index++) {
     tableRows.push(
       <tr>
         <td>{index}</td>

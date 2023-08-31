@@ -6,8 +6,13 @@ import data from "../../assets/PDFTemplateMock.json"
 import { useReactToPrint } from "react-to-print";
 
 export const PDFPreview: FC = () => {
-  const PDFRef = createRef()
+  const PDFRef: { [key: number]: any } = {}
+  
+  for (let index = 0; index <= 2; index++) {
+    PDFRef[index] = createRef()
+  } 
 
+  console.log(PDFRef)
   // Send print request to the Main process
   const handlePrint = function (target) {
     return new Promise(() => {
@@ -18,7 +23,7 @@ export const PDFPreview: FC = () => {
       const blob = new Blob(["\uFEFF" + data], { type: "text/html;charset=utf-8",  });
       const url = URL.createObjectURL(blob);
 
-      window.electronAPI.printComponent(url, (response) => {
+      window.electronAPI.printComponent(url, "Facu", (response) => {
         console.log("Main: ", response);
       });
       //console.log('Main: ', data);
@@ -26,7 +31,7 @@ export const PDFPreview: FC = () => {
   };
 
   const handleChartPrint = useReactToPrint({
-    content: () => PDFRef.current,
+    content: () => PDFRef[2].current,
     documentTitle: "Chart component",
     print: handlePrint,
   });
@@ -41,21 +46,24 @@ export const PDFPreview: FC = () => {
           totals={data.totals}
           month="JUNIO"
           year={2023}
-          ref={PDFRef}
+          ref={PDFRef[0]}
         />
         <PDFTemplate 
           personalData={data.personalData} 
           haberesYDescuentos={data.haberesYDescuentos}
           totals={data.totals}
-          month="JUNIO"
+          month="JULIO"
           year={2023}
+          ref={PDFRef[1]}
         />
         <PDFTemplate 
           personalData={data.personalData} 
           haberesYDescuentos={data.haberesYDescuentos}
           totals={data.totals}
-          month="JUNIO"
+          month="MARZO"
           year={2023}
+          ref={PDFRef[2]}
+
         />
         <PDFTemplate 
           personalData={data.personalData} 

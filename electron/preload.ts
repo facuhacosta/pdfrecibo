@@ -83,12 +83,16 @@ function useLoading() {
 }
 
 contextBridge.exposeInMainWorld("electronAPI", {
-  printComponent: async (url: string, callback: (response: any) => void) => {
-    let response = await ipcRenderer.invoke("printComponent", url);
+  printComponent: async (url: string, name: string, callback: (response: any) => void) => {
+    let response = await ipcRenderer.invoke("printComponent", url, name);
     callback(response);
   },
-  previewComponent: async (url: string, callback: (response: any) => void) => {
+  previewComponent: async (url: string, callback: (response: any) => void, ) => {
     let response = await ipcRenderer.invoke("previewComponent", url);
+    callback(response);
+  },
+  saveData: async (data: string, callback: (response: any) => void) => {
+    let response = await ipcRenderer.invoke("SaveDataBase", data);
     callback(response);
   },
 });

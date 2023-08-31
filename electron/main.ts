@@ -60,13 +60,22 @@ const printOptions = {
   copies: 1,
 };
 
+ipcMain.handle("SaveDataBase", async (event, data) => {
+  const databasePath = path.join(__dirname, '../src/assets/Config.json')
+  fs.writeFile(databasePath, data, error => {
+    if (error) throw error;
+    console.log("Data Saved")
+  })
+  return "data saved"
+})
+
 //handle print
-ipcMain.handle("printComponent", async (event, url) => {
+ipcMain.handle("printComponent", async (event, url, name) => {
   const win = new BrowserWindow({ show: false });
 
   win.webContents.on("did-finish-load", () => {
-    const pdfPath = path.join(os.homedir(), 'Desktop', 'temp.pdf')
-    win.webContents.printToPDF({}).then(data => {
+    const pdfPath = path.join(os.homedir(), 'Desktop/pdf', `${name}.pdf`)
+    win.webContents.printToPDF({preferCSSPageSize: true, printBackground: true, pageSize: 'A4'}).then(data => {
       fs.writeFile(pdfPath, data, (error) => {
         if (error) throw error
         console.log(`Wrote PDF successfully to ${pdfPath}`)

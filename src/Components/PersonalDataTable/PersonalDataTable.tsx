@@ -4,7 +4,7 @@ import styles from "./PersonalDataTable.module.scss"
 export const PersonalDataTable: FC = () => {
   const categorias = ['1', '2', '3', '4', '10']
   const tableRows = []
-  for (let index = 1; index <= 100; index++) {
+  for (let index = 1; index <= 150; index++) {
     tableRows.push(
       <tr>
         <td>{index}</td>
